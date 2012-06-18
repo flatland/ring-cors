@@ -4,7 +4,7 @@
 
 (defn origin
   "Returns the Origin request header."
-  [request] (get (:headers request) "origin"))
+  [request] (get (:headers request) "origin" "none specified"))
 
 (defn allow-request?
   "Returns true if the request's origin matches the access control
