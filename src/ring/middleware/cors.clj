@@ -44,7 +44,8 @@ Example:
   [handler & access-control]
   (let [access-control (apply hash-map access-control)]
     (fn [request]
-      (let [response (handler request)]
-        (if (allow-request? request access-control)
-          (add-access-control request response access-control)
-          response)))))
+      (if (allow-request? request access-control)
+        (add-access-control request (handler request) access-control)
+        {:status 403
+         :headers {}
+         :body "CORS Request Denied"}))))
