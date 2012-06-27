@@ -28,7 +28,7 @@
   [request response access-control]
   (if-let [origin (origin request)]
     (let [access-headers (normalize-headers (assoc access-control :access-control-allow-origin origin))]
-      (assoc response :cors-headers access-headers))
+      (update-in response [:headers] merge access-headers))
     response))
 
 (defn wrap-cors
@@ -47,19 +47,3 @@ Example:
       (when-let [resp (and (allow-request? request access-control)
                            (handler request))]
         (add-access-control request resp access-control)))))
-
-(defn wrap-cors-headers
-  "Should be placed near the top of the stack.
-   If a cors request was allowed earlier on, the response will
-   contain a :cors-headers key. This will be merged into the
-   response headers."
-  [handler]
-  (fn [request]
-    (when-let [resp (handler request)]
-      (if (get (:headers request) "origin")
-        (if-let [headers (:cors-headers resp)]
-          (update-in resp [:headers] merge headers)
-          {:status 403
-           :headers {}
-           :body "CORS Request Denied."})
-        resp))))
