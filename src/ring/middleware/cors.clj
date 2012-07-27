@@ -44,8 +44,6 @@
 (defn wrap-cors
   "Middleware that adds Cross-Origin Resource Sharing headers.
 
-E
-
   (def handler
     (-> routes
         (wrap-cors

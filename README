@@ -4,14 +4,15 @@ Ring middleware for Cross-Origin Resource Sharing.
 
 ## Installation
 
-Via Leiningen: [ring-cors "0.0.1-SNAPSHOT"]
+Via Leiningen: [ring-cors "0.0.7-SNAPSHOT"]
 
 ## Usage
 
 (def handler
-  (-> my-routes
+  (-> routes
       (wrap-cors
-       :access-control-allow-origin #"http://example.com")))
+       :access-control-allow-origin #\"http://example.com\"
+       :access-control-allow-methods [:get :put :post :delete])))
 
 ## License
 
